@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -16,7 +17,7 @@ const Index = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
   const { user, signOut } = useAuth();
   
-  // Sample user data
+  // Sample user metrics (will be replaced with real data from Supabase)
   const userMetrics = {
     riskScore: 35,
     bloodPressure: { systolic: 128, diastolic: 82 },
@@ -33,6 +34,14 @@ const Index = () => {
   };
 
   const riskInfo = getRiskLevel(userMetrics.riskScore);
+
+  // Get user's display name from Supabase user metadata or email
+  const getUserName = () => {
+    if (user?.user_metadata?.first_name && user?.user_metadata?.last_name) {
+      return `${user.user_metadata.first_name} ${user.user_metadata.last_name}`;
+    }
+    return user?.email?.split('@')[0] || 'User';
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
@@ -51,7 +60,7 @@ const Index = () => {
             </div>
             <div className="flex items-center space-x-4">
               <div className="text-right">
-                <p className="text-sm font-medium text-gray-900">Welcome, {user?.name}</p>
+                <p className="text-sm font-medium text-gray-900">Welcome, {getUserName()}</p>
                 <p className="text-xs text-gray-500">{user?.email}</p>
               </div>
               <Button variant="outline" onClick={signOut} className="flex items-center space-x-2">
@@ -187,13 +196,13 @@ const Index = () => {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <Button variant="outline" className="justify-start h-auto p-4">
+                  <Button variant="outline" className="justify-start h-auto p-4" onClick={() => setActiveTab("input")}>
                     <div className="text-left">
                       <div className="font-medium">Log Today's Metrics</div>
                       <div className="text-sm text-gray-500">Update your daily readings</div>
                     </div>
                   </Button>
-                  <Button variant="outline" className="justify-start h-auto p-4">
+                  <Button variant="outline" className="justify-start h-auto p-4" onClick={() => setActiveTab("recommendations")}>
                     <div className="text-left">
                       <div className="font-medium">View Recommendations</div>
                       <div className="text-sm text-gray-500">See personalized advice</div>
