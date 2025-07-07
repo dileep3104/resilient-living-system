@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,9 +10,11 @@ import { RecommendationsPanel } from "@/components/RecommendationsPanel";
 import { UserProfile } from "@/components/UserProfile";
 import { DataInputForm } from "@/components/DataInputForm";
 import { Activity, Heart, TrendingUp, Shield, User } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
+  const { user, signOut } = useAuth();
   
   // Sample user data
   const userMetrics = {
@@ -48,10 +49,16 @@ const Index = () => {
                 <p className="text-sm text-gray-600">Your personalized chronic disease prevention companion</p>
               </div>
             </div>
-            <Button variant="outline" className="flex items-center space-x-2">
-              <User className="h-4 w-4" />
-              <span>Profile</span>
-            </Button>
+            <div className="flex items-center space-x-4">
+              <div className="text-right">
+                <p className="text-sm font-medium text-gray-900">Welcome, {user?.name}</p>
+                <p className="text-xs text-gray-500">{user?.email}</p>
+              </div>
+              <Button variant="outline" onClick={signOut} className="flex items-center space-x-2">
+                <User className="h-4 w-4" />
+                <span>Sign Out</span>
+              </Button>
+            </div>
           </div>
         </div>
       </div>
