@@ -125,7 +125,7 @@ export const UserProfile = () => {
                 <Label htmlFor="height">Height</Label>
                 <Input
                   id="height"
-                  placeholder="5'10\""
+                  placeholder="5'10&quot;"
                   value={profileData.height}
                   onChange={(e) => handleInputChange("height", e.target.value)}
                 />
